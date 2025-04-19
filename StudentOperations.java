@@ -96,5 +96,45 @@ import java.sql.*;
              System.out.println("Error: " + e.getMessage());
          }
      }
+     // Updates the name of a student identified by PRN
+     public void updateStudent(long prn, String newName) {
+         String sql = "UPDATE students SET name=? WHERE prn=?";
+         // Establishes a database connection and prepares a SQL statement using try-with-statements.
+         try (Connection con = DBConnection.getConnection();
+              PreparedStatement ps = con.prepareStatement(sql)) {
+             // Set the new name and the PRN
+             ps.setString(1, newName);
+             ps.setLong(2, prn);
+             // Execute the update and check if any row was updated
+             int rows = ps.executeUpdate();
+             if (rows > 0) {
+                 System.out.println("Student updated successfully.");
+             } else {
+                 System.out.println("Student not found.");
+             }
+         } catch (SQLException e) {
+             System.out.println("Error: " + e.getMessage());
+         }
+     }
+ 
+     // Deletes a student from the database based on PRN
+     public void deleteStudent(long prn) {
+         String sql = "DELETE FROM students WHERE prn=?";
+         // Establishes a database connection and prepares a SQL statement using try-with-statements.
+         try (Connection con = DBConnection.getConnection();
+              PreparedStatement ps = con.prepareStatement(sql)) {
+             // Set the PRN of the student to delete
+             ps.setLong(1, prn);
+             // Execute deletion and check if any row was deleted
+             int rows = ps.executeUpdate();
+             if (rows > 0) {
+                 System.out.println("Student deleted successfully.");
+             } else {
+                 System.out.println("Student not found.");
+             }
+         } catch (SQLException e) {
+             System.out.println("Error: " + e.getMessage());
+         }
+     }
  
  }
