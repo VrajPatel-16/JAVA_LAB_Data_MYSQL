@@ -18,14 +18,18 @@
          return name;  // Returns the student's name
      }
      
+ 
      // Setter method to update the student's PRN
      public void setPRN(long prn){
          this.prn = prn;  // Assigns the given PRN to the instance variable
-     }
- 
-     // Getter method to retrieve the student's PRN
-     public long getPRN() {
+
          return prn;  // Returns the student's PRN
      }
+ 
+     // Method to display the student's details (name and PRN)
+     public void display() {
+         System.out.println("Name: " + name + ", PRN: " + prn);  
+     }
+ 
  
  }
