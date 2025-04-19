@@ -59,4 +59,42 @@ import java.sql.*;
          }
      }
  
+     // Searches for students whose names contain the given string (case-insensitive)
+     public void searchByName(String name) {
+         String sql = "SELECT * FROM students WHERE name LIKE ?";
+         // Establishes a database connection and prepares a SQL statement using try-with-statements.
+         try (Connection con = DBConnection.getConnection();
+              PreparedStatement ps = con.prepareStatement(sql)) {
+             // Use wildcard % for partial matches
+             ps.setString(1, "%" + name + "%");
+             ResultSet rs = ps.executeQuery();
+             // Print each matching student
+             while (rs.next()) {
+                 System.out.println("Name: " + rs.getString("name") + ", PRN: " + rs.getLong("prn"));
+             }
+         } catch (SQLException e) {
+             System.out.println("Error: " + e.getMessage());
+         }
+     }
+ 
+     // Searches for a student based on their position in the sorted list (by PRN)
+     public void searchByPosition(int position) {
+         String sql = "SELECT * FROM students ORDER BY prn ASC LIMIT 1 OFFSET ?";
+         // Establishes a database connection and prepares a SQL statement using try-with-statements.
+         try (Connection con = DBConnection.getConnection();
+              PreparedStatement ps = con.prepareStatement(sql)) {
+             // Set the offset (position - 1 because SQL OFFSET is 0-based)
+             ps.setInt(1, position - 1);  // position is 1-based; OFFSET is 0-based
+             ResultSet rs = ps.executeQuery();
+             // If found, print student details
+             if (rs.next()) {
+                 System.out.println("Name: " + rs.getString("name") + ", PRN: " + rs.getLong("prn"));
+             } else {
+                 System.out.println("No student found at position " + position + ".");
+             }
+         } catch (SQLException e) {
+             System.out.println("Error: " + e.getMessage());
+         }
+     }
+ 
  }
