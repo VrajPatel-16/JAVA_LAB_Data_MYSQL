@@ -24,3 +24,11 @@ import java.util.Scanner;
              System.out.println("7. Delete Student");
              System.out.println("8. Exit");
              System.out.print("Enter your choice: ");
+             try {
+                 choice = scan.nextInt(); // Taking user input for menu selection
+                 scan.nextLine(); // Clear buffer
+ 
+                 //Custom validation: Check if the choice is within valid range
+                 if (choice < 1 || choice > 8) {
+                     throw new InvalidChoiceException("Invalid choice! Please enter a number between 1 and 8.");
+                 }
